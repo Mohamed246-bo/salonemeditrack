@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Doctor Dashboard</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      font-family: 'Georgia', serif;
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      background: #f4f7f9;
+      display: flex;
+    }
+    .sidebar {
+      width: 200px;
+      background: #2c3e50;
+      color: white;
+      padding: 1rem;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+    .sidebar h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.5rem;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 1rem;
+    }
+    .sidebar ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .sidebar ul li a:hover {
+      text-decoration: underline;
+    }
+    .main-content {
+      margin-left: 220px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background: #34495e;
+      padding: 2rem 3rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+    .notifications {
+      font-size: 1rem;
+      background: #e74c3c;
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+    .card {
+      background: #ffffff;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: #2c3e50;
+    }
+    .card textarea, .card input {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .card button {
+      background: #2980b9;
+      color: white;
+      padding: 0.7rem 1.4rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .card button:hover {
+      background: #3498db;
+    }
+    .status-bar {
+      background: #ecf0f1;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 30px;
+      margin-bottom: 1rem;
+      display: flex;
+      font-weight: bold;
+    }
+    .bar-reviewed { background: #27ae60; color: white; padding-left: 10px; line-height: 30px;}
+    .bar-pending { background: #f39c12; color: black; padding-left: 0px; line-height: 30px; }
+    .bar-declined { background: #c0392b; color: white; padding-left: 0px; line-height: 30px; }
+    footer {
+      background: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #ecf0f1;
+      text-decoration: none;
+      margin: 0 0.7rem;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<aside class="sidebar">
+  <h2>MENU</h2>
+  <ul>
+    <li><a href="#">Dashboard</a></li>
+    <li><a href="#">Appointments</a></li>
+    <li><a href="#">Messages</a></li>
+    <li><a href="#">Patients</a></li>
+    <li><a href="#">Reports</a></li>
+    <li><a href="index.html">Logout</a></li>
+  </ul>
+</aside>
+
+<div class="main-content">
+  <header>
+    <h1>Salone MediTrack</h1>
+    <div class="notifications">New Messages (3)</div>
+  </header>
+
+  <main class="dashboard">
+    <div class="card">
+      <h2>Upcoming Appointments</h2>
+      <ul>
+        <li>John Doe - 10:00 AM</li>
+        <li>Mary Smith - 11:30 AM</li>
+        <li>James Lee - 2:00 PM</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>Patient Requests</h2>
+      <p>3 requests pending review</p>
+      <button onclick="reviewRequests()">Review Now</button>
+    </div>
+
+    <div class="card">
+      <h2>Message Center</h2>
+      <textarea placeholder="Type response..."></textarea>
+      <button>Send Message</button>
+    </div>
+
+    <div class="card">
+      <h2>Patient Records</h2>
+      <p>Access and manage medical records securely.</p>
+      <button>View Records</button>
+    </div>
+
+    <div class="card">
+      <h2>Request Status Overview</h2>
+      <div class="status-bar">
+        <div id="bar-reviewed" class="bar-reviewed" style="width: 50%">Reviewed (5)</div>
+        <div id="bar-pending" class="bar-pending" style="width: 30%">Pending (3)</div>
+        <div id="bar-declined" class="bar-declined" style="width: 20%">Declined (2)</div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Medical Web Portal. All rights reserved.</p>
+    <p>
+      <a href="#">Privacy Policy</a> |
+      <a href="#">Terms of Service</a> |
+      <a href="#">Contact Support</a>
+    </p>
+  </footer>
+</div>
+
+<script>
+  function reviewRequests() {
+    const reviewed = document.getElementById("bar-reviewed");
+    const pending = document.getElementById("bar-pending");
+    const declined = document.getElementById("bar-declined");
+
+    let r = parseInt(reviewed.textContent.match(/\d+/)[0]);
+    let p = parseInt(pending.textContent.match(/\d+/)[0]);
+    let d = parseInt(declined.textContent.match(/\d+/)[0]);
+
+    if (p > 0) {
+      p--;
+      r++;
+    }
+
+    const total = r + p + d;
+    const rw = Math.round((r / total) * 100);
+    const pw = Math.round((p / total) * 100);
+    const dw = 100 - rw - pw;
+
+    reviewed.style.width = rw + "%";
+    reviewed.textContent = `Reviewed (${r})`;
+    pending.style.width = pw + "%";
+    pending.textContent = `Pending (${p})`;
+    declined.style.width = dw + "%";
+    declined.textContent = `Declined (${d})`;
+
+    alert("One request reviewed.");
+  }
+</script>
+</body>
+</html>
